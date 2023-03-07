@@ -25,5 +25,8 @@ jobs:
       run: |
         echo $GITHUB_BASE_REF
         echo $GITHUB_HEAD_REF
-        git diff --name-only main feature/lint
+        echo git diff --name-only main...feature/lint
+        git diff --name-only main...feature/lint
+        echo git diff --name-only $GITHUB_BASE_REF...$GITHUB_HEAD_REF
+        git diff --name-only $GITHUB_BASE_REF...$GITHUB_HEAD_REF
         flake8 . --count --max-complexity=10 --max-doc-length=120 --max-line-length=120 --statistics
