@@ -13,6 +13,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
+        ref: ${{ github.event.pull_request.base.ref }}
+    - uses: actions/checkout@v2
+      with:
         ref: ${{ github.event.pull_request.head.ref }}
     - name: Set up Python 3.9
       uses: actions/setup-python@v1
@@ -23,13 +26,7 @@ jobs:
         python -m pip install --upgrade pip flake8
     - name: Lint with flake8
       run: |
-        echo GITHUB_BASE_REF=$GITHUB_BASE_REF
-        echo GITHUB_HEAD_REF=$GITHUB_HEAD_REF
-        echo git branch
         git branch
-        git status
-        echo git diff --name-only $GITHUB_BASE_REF $GITHUB_HEAD_REF
-        git diff --name-only $GITHUB_BASE_REF $GITHUB_HEAD_REF
         echo git diff --name-only $GITHUB_BASE_REF...$GITHUB_HEAD_REF
         git diff --name-only $GITHUB_BASE_REF...$GITHUB_HEAD_REF
         flake8 . --count --max-complexity=10 --max-doc-length=120 --max-line-length=120 --statistics
