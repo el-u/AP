@@ -13,7 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        ref: ${{ GITHUB_BASE_REF }}
+        ref: ${{ github.event.pull_request.head.ref }}
     - name: Set up Python 3.9
       uses: actions/setup-python@v1
       with:
