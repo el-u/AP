@@ -21,8 +21,11 @@ jobs:
         python -m pip install --upgrade pip flake8
     - name: Lint with flake8
       run: |
-        echo $GITHUB_BASE_REF
-        echo $GITHUB_HEAD_REF
+        echo GITHUB_BASE_REF=$GITHUB_BASE_REF
+        echo GITHUB_HEAD_REF=$GITHUB_HEAD_REF
+        echo git branch
+        git branch
+        git status
         echo git diff --name-only $GITHUB_BASE_REF $GITHUB_HEAD_REF
         git diff --name-only $GITHUB_BASE_REF $GITHUB_HEAD_REF
         echo git diff --name-only $GITHUB_BASE_REF...$GITHUB_HEAD_REF
