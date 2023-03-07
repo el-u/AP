@@ -22,8 +22,8 @@ jobs:
     - name: Lint with flake8
       run: |
         git branch
-        git fetch origin ${{ github.event.pull_request.head.sha }}
-        git fetch origin ${{ github.event.pull_request.base.sha }}
-        echo git diff --name-only ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }}
-        git diff --name-only ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }}
-        flake8 . --count --max-complexity=10 --max-doc-length=120 --max-line-length=120 --statistics
+        git fetch origin ${{ github.head_ref }}
+        git fetch origin ${{ github.base_ref }}
+        echo git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }}
+        git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }}
+        flake8 --count --max-complexity=10 --max-doc-length=120 --max-line-length=120 --statistics $(git diff --name-only ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }})
