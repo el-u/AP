@@ -18,15 +18,13 @@ jobs:
         python-version: 3.9
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip wheel
-        pip install flake8 pytest pytest-subtests
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        python -m pip install --upgrade pip flake8
     - name: Lint with flake8
       run: |
         echo $GITHUB_BASE_REF
         echo $GITHUB_HEAD_REF
-        echo git diff --name-only main...feature/lint
-        git diff --name-only main...feature/lint
+        echo git diff --name-only $GITHUB_BASE_REF $GITHUB_HEAD_REF
+        git diff --name-only $GITHUB_BASE_REF $GITHUB_HEAD_REF
         echo git diff --name-only $GITHUB_BASE_REF...$GITHUB_HEAD_REF
         git diff --name-only $GITHUB_BASE_REF...$GITHUB_HEAD_REF
         flake8 . --count --max-complexity=10 --max-doc-length=120 --max-line-length=120 --statistics
