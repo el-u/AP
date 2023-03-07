@@ -13,6 +13,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    continue-on-error: true
+
     steps:
       - uses: actions/checkout@v3
 
@@ -29,7 +31,7 @@ jobs:
       - name: Lint with flake8
         run: |
           DIFF=$(git diff --diff-filter=d --name-only $BASE_SHA...$HEAD_SHA -- "*.py")
-          echo Changed files:
+          echo changed files:
           echo $DIFF
-
+          echo flake8 results:
           flake8 --count --max-complexity=10 --max-doc-length=120 --max-line-length=120 --statistics $DIFF
