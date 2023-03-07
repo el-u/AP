@@ -12,8 +12,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
     - name: Set up Python 3.9
       uses: actions/setup-python@v1
       with:
@@ -24,6 +22,8 @@ jobs:
     - name: Lint with flake8
       run: |
         git branch
+        git fetch ${{ github.event.pull_request.head.sha }}
+        git fetch ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}
         echo git diff --name-only ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }}
         git diff --name-only ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }}
         flake8 . --count --max-complexity=10 --max-doc-length=120 --max-line-length=120 --statistics
