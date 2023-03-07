@@ -29,4 +29,4 @@ jobs:
           echo changed files:
           echo $DIFF
           echo flake8 results:
-          flake8 --count --max-complexity=10 --max-doc-length=120 --max-line-length=120 --show-source --statistics $DIFF
+          flake8 --count --max-complexity=10 --max-doc-length=120 --max-line-length=120 --statistics $DIFF
