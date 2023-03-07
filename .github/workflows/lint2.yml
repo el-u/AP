@@ -9,9 +9,15 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    env:
+      BASE_SHA = ${{ github.event.pull_request.base.sha }}
+      HEAD_SHA = ${{ github.event.pull_request.head.sha }}
 
     steps:
     - uses: actions/checkout@v3
+    - name: Fetch base and head
+      run: |
+        git fetch origin BASE_SHA HEAD_SHA
     - uses: actions/setup-python@v4
       with:
         python-version: 3.9
@@ -20,8 +26,7 @@ jobs:
         python -m pip install --upgrade pip flake8
     - name: Lint with flake8
       run: |
-        git branch
-        git fetch origin ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }}
-        echo git diff --name-only ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }}
-        git diff --diff-filter=d --name-only ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }}
-        flake8 --count --max-complexity=10 --max-doc-length=120 --max-line-length=120 --statistics $(git diff --diff-filter=d --name-only ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }})
+        diff = git diff --diff-filter=d --name-only BASE_SHA...HEAD_SHA
+        echo Changed files:
+        echo $diff
+        flake8 --count --max-complexity=10 --max-doc-length=120 --max-line-length=120 --statistics $diff
