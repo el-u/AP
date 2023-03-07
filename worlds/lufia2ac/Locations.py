@@ -7,5 +7,4 @@ l2ac_location_name_to_id: Dict[str, int] = {f"Blue chest {i + 1}": (start_id + i
 
 
 class L2ACLocation(Location):
-    """docstring"""
     game: str = "Lufia II Ancient Cave"
