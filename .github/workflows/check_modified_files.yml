@@ -1,4 +1,4 @@
-name: lint
+name: check modified files
 
 on: pull_request
 
@@ -23,7 +23,7 @@ jobs:
       - run: |
           python -m pip install --upgrade pip flake8
 
-      - name: Lint with flake8
+      - name: Lint modified files with flake8
         run: |
           DIFF=$(git diff --diff-filter=d --name-only $BASE_SHA...$HEAD_SHA -- "*.py")
           echo changed files:
