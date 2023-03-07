@@ -28,7 +28,8 @@ jobs:
 
       - name: Lint with flake8
         run: |
-          DIFF=$(git diff --diff-filter=d --name-only $BASE_SHA...$HEAD_SHA)
+          DIFF=$(git diff --diff-filter=d --name-only $BASE_SHA...$HEAD_SHA -- "*.py")
           echo Changed files:
           echo $DIFF
+
           flake8 --count --max-complexity=10 --max-doc-length=120 --max-line-length=120 --statistics $DIFF
