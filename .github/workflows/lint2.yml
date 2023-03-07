@@ -17,7 +17,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: Fetch base and head
       run: |
-        git fetch origin BASE_SHA HEAD_SHA
+        git fetch origin $BASE_SHA $HEAD_SHA
     - uses: actions/setup-python@v4
       with:
         python-version: 3.9
@@ -26,7 +26,7 @@ jobs:
         python -m pip install --upgrade pip flake8
     - name: Lint with flake8
       run: |
-        diff = git diff --diff-filter=d --name-only BASE_SHA...HEAD_SHA
+        DIFF = git diff --diff-filter=d --name-only $BASE_SHA...$HEAD_SHA
         echo Changed files:
-        echo $diff
-        flake8 --count --max-complexity=10 --max-doc-length=120 --max-line-length=120 --statistics $diff
+        echo $DIFF
+        flake8 --count --max-complexity=10 --max-doc-length=120 --max-line-length=120 --statistics $DIFF
