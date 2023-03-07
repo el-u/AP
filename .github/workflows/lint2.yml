@@ -24,8 +24,4 @@ jobs:
     - name: Lint with flake8
       run: |
         env
-#        echo $GITHUB_BASE_REF
-#        echo $GITHUB_HEAD_REF
-#        echo $GITHUB_REF
-#        echo $GITHUB_REF_NAME
         flake8 . --count --max-complexity=10 --max-doc-length=120 --max-line-length=120 --statistics
