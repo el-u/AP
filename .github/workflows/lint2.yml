@@ -3,7 +3,7 @@
 
 name: lint2
 
-on: [push, pull_request]
+on: pull_request
 
 jobs:
   build:
@@ -23,5 +23,7 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with flake8
       run: |
-        env
+        echo $GITHUB_BASE_REF
+        echo $GITHUB_HEAD_REF
+        git diff --name-only main feature/lint
         flake8 . --count --max-complexity=10 --max-doc-length=120 --max-line-length=120 --statistics
