@@ -15,21 +15,30 @@ jobs:
 
       - run: |
           git fetch origin $BASE_SHA $HEAD_SHA
+          DIFF=$(git diff --diff-filter=d --name-only $BASE_SHA...$HEAD_SHA -- "*.py")
+          echo changed files:
+          echo $DIFF
 
       - uses: actions/setup-python@v4
         with:
           python-version: 3.9
 
       - run: |
-          python -m pip install --upgrade pip flake8
+          python -m pip install --upgrade pip flake8 mypy
+
+      - run: |
+          python ModuleUpdate.py --yes
 
       - name: Lint modified files with flake8
         run: |
-          DIFF=$(git diff --diff-filter=d --name-only $BASE_SHA...$HEAD_SHA -- "*.py")
-          echo changed files:
-          echo $DIFF
-          
           if [ -z "$DIFF" ]; then exit 0; fi
           
           echo flake8 results:
           flake8 --count --max-complexity=10 --max-doc-length=120 --max-line-length=120 --statistics $DIFF
+
+      - name: Type check modified files with mypy
+        run: |
+          if [ -z "$DIFF" ]; then exit 0; fi
+          
+          echo mypy results:
+          mypy --install-types --non-interactive --strict $DIFF
