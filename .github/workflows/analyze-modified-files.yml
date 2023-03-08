@@ -1,4 +1,4 @@
-name: analyze modified files2
+name: analyze modified files
 
 on: pull_request
 
@@ -8,7 +8,6 @@ env:
 
 jobs:
   flake8:
-    needs: setup
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -35,7 +34,6 @@ jobs:
           flake8 --count --max-complexity=10 --max-doc-length=120 --max-line-length=120 --statistics $DIFF
 
   mypy:
-    needs: setup
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
