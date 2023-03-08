@@ -1,4 +1,4 @@
-name: check modified files
+name: lint modified files
 
 on: pull_request
 
