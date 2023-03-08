@@ -1,4 +1,4 @@
-name: analyze modified files
+name: analyze modified files2
 
 on: pull_request
 
