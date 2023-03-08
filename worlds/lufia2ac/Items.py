@@ -33,7 +33,7 @@ class L2ACItem(Item):
 l2ac_item_table: Dict[str, ItemData] = {
     # 0x0000: "No equip"
     # ----- CONSUMABLE -----
-    "Charred newt": ItemData(0x0001, ItemType.ENEMY_DROP, ItemClassification.useful),
+    "Charred newton": ItemData(0x0001, ItemType.ENEMY_DROP, ItemClassification.useful),
     "Potion": ItemData(0x0002, ItemType.RED_CHEST, ItemClassification.useful),
     "Hi-Potion": ItemData(0x0003, ItemType.RED_CHEST, ItemClassification.useful),
     "Ex-Potion": ItemData(0x0004, ItemType.RED_CHEST, ItemClassification.useful),
