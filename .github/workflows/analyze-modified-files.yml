@@ -1,4 +1,4 @@
-name: lint modified files
+name: analyze modified files
 
 on: pull_request
 
@@ -7,17 +7,13 @@ env:
   HEAD_SHA: ${{ github.event.pull_request.head.sha }}
 
 jobs:
-  build:
+  setup:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
 
       - run: |
           git fetch origin $BASE_SHA $HEAD_SHA
-          DIFF=$(git diff --diff-filter=d --name-only $BASE_SHA...$HEAD_SHA -- "*.py")
-          echo changed files:
-          echo $DIFF
 
       - uses: actions/setup-python@v4
         with:
@@ -25,22 +21,32 @@ jobs:
 
       - run: |
           python -m pip install --upgrade pip flake8 mypy
-
-      - run: |
           python ModuleUpdate.py --yes
 
+  flake8:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
       - name: Lint modified files with flake8
         run: |
+          echo changed files:
           DIFF=$(git diff --diff-filter=d --name-only $BASE_SHA...$HEAD_SHA -- "*.py")
-          if [ -z "$DIFF" ]; then exit 0; fi
+          echo $DIFF
           
           echo flake8 results:
+          if [ -z "$DIFF" ]; then exit 0; fi
           flake8 --count --max-complexity=10 --max-doc-length=120 --max-line-length=120 --statistics $DIFF
 
+  mypy:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
       - name: Type check modified files with mypy
         run: |
+          echo changed files:
           DIFF=$(git diff --diff-filter=d --name-only $BASE_SHA...$HEAD_SHA -- "*.py")
-          if [ -z "$DIFF" ]; then exit 0; fi
+          echo $DIFF
           
           echo mypy results:
-          mypy --install-types --non-interactive --strict $DIFF
+          if [ -z "$DIFF" ]; then exit 0; fi
+          mypy --follow-imports=silent --install-types --non-interactive --strict $DIFF
