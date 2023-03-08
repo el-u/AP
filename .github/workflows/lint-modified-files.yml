@@ -29,7 +29,7 @@ jobs:
           echo changed files:
           echo $DIFF
           
-          if [ -z "$DIFF" ]; then; exit 0; fi;
+          if [ -z "$DIFF" ]; then exit 0; fi
           
           echo flake8 results:
           flake8 --count --max-complexity=10 --max-doc-length=120 --max-line-length=120 --statistics $DIFF
