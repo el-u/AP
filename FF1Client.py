@@ -6,7 +6,6 @@ from asyncio import StreamReader, StreamWriter
 from typing import List
 
 
-
 import Utils
 from Utils import async_start
 from CommonClient import CommonContext, server_loop, gui_enabled, ClientCommandProcessor, logger, \
