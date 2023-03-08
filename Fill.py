@@ -15,7 +15,6 @@ class FillError(RuntimeError):
 
 
 def sweep_from_pool(base_state: CollectionState, itempool: typing.Sequence[Item] = tuple()) -> CollectionState:
-    """looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong liiiiiiiiiiiiine iiiiiiiiiiiiiin doc"""
     new_state = base_state.copy()
     for item in itempool:
         new_state.collect(item, True)
