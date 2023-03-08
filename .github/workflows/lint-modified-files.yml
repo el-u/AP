@@ -31,6 +31,7 @@ jobs:
 
       - name: Lint modified files with flake8
         run: |
+          DIFF=$(git diff --diff-filter=d --name-only $BASE_SHA...$HEAD_SHA -- "*.py")
           if [ -z "$DIFF" ]; then exit 0; fi
           
           echo flake8 results:
@@ -38,6 +39,7 @@ jobs:
 
       - name: Type check modified files with mypy
         run: |
+          DIFF=$(git diff --diff-filter=d --name-only $BASE_SHA...$HEAD_SHA -- "*.py")
           if [ -z "$DIFF" ]; then exit 0; fi
           
           echo mypy results:
