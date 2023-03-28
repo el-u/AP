@@ -26,14 +26,14 @@ jobs:
           python -m pip install --upgrade pip flake8 mypy
           python ModuleUpdate.py --append "WebHostLib/requirements.txt" --force --yes
 
-#      - name: Determine modified files
-#      - run: |
-#          git fetch origin $BASE_SHA $HEAD_SHA
-#          DIFF=$(git diff --diff-filter=d --name-only $BASE_SHA...$HEAD_SHA -- "*.py")
-#          echo "diff=$DIFF" >> $GITHUB_ENV
-#          echo modified files:
-#          echo $DIFF
-#
+      - name: Determine modified files
+      - run: |
+          git fetch origin $BASE_SHA $HEAD_SHA
+          DIFF=$(git diff --diff-filter=d --name-only $BASE_SHA...$HEAD_SHA -- "*.py")
+          echo "diff=$DIFF" >> $GITHUB_ENV
+          echo modified files:
+          echo $DIFF
+
 #      - name: Lint modified files with flake8
 #        if: env.diff != ""
 #        run: |
