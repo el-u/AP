@@ -17,6 +17,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Determine modified files
+        run: |
+          git fetch origin $BASE_SHA $HEAD_SHA
+          DIFF=$(git diff --diff-filter=d --name-only $BASE_SHA...$HEAD_SHA -- "*.py")
+          echo "modified files:"
+          echo "$DIFF"
+          echo "diff=${DIFF//$'\n'/$' '}" >> $GITHUB_ENV
+
       - uses: actions/setup-python@v4
         with:
           python-version: 3.8
@@ -25,14 +33,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip flake8 mypy
           python ModuleUpdate.py --append "WebHostLib/requirements.txt" --force --yes
-
-      - name: Determine modified files
-        run: |
-          git fetch origin $BASE_SHA $HEAD_SHA
-          DIFF=$(git diff --diff-filter=d --name-only $BASE_SHA...$HEAD_SHA -- "*.py")
-          echo "modified files:"
-          echo "$DIFF"
-          echo "diff=${DIFF//$'\n'/$' '}" >> $GITHUB_ENV
+          mypy --install-types --non-interactive
 
       - name: Lint modified files with flake8
         continue-on-error: true
@@ -44,4 +45,4 @@ jobs:
         continue-on-error: true
         if: env.diff != ''
         run: |
-          mypy --follow-imports=silent --install-types --non-interactive --strict ${{ env.diff }}
+          mypy --follow-imports=silent --strict ${{ env.diff }}
