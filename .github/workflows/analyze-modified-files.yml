@@ -30,8 +30,9 @@ jobs:
         run: |
           git fetch origin $BASE_SHA $HEAD_SHA
           DIFF=$(git diff --diff-filter=d --name-only $BASE_SHA...$HEAD_SHA -- "*.py")
-          echo modified files:
-          echo $DIFF
+          echo "modified files:"
+          echo "$DIFF"
+
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
           echo "diff<<$EOF
           $DIFF
