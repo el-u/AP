@@ -33,12 +33,12 @@ jobs:
           echo "modified files:"
           echo "$DIFF"
 
+          echo "${DIFF//$'\n'/$' '}"
+          echo "${DIFF//$'\n'/$' '}" >> $GITHUB_ENV
 #          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
 #          echo "diff<<$EOF
 #          $DIFF
 #          $EOF" >> $GITHUB_ENV
-          echo "${DIFF//$'\n'/$' '}"
-          echo "${DIFF//$'\n'/$' '}" >> $GITHUB_ENV
 
       - name: Lint modified files with flake8
 #        if: env.diff != ""
