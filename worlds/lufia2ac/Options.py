@@ -58,7 +58,7 @@ class LevelMixin:
 
 
 class BlueChestChance(Range):
-    """The chance of a chest being a blue chest.
+    """The chance of a chest being a blue chest.test
 
     It is given in units of 1/256, i.e., a value of 25 corresponds to 25/256 ~ 9.77%.
     If you increase the blue chest chance, then the chance of finding consumables is decreased in return.
