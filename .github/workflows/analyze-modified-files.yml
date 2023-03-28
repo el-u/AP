@@ -34,7 +34,7 @@ jobs:
           echo "$DIFF"
 
           echo "${DIFF//$'\n'/$' '}"
-          echo "${DIFF//\n/ }"
+          echo "${DIFF//\\n/ }"
           echo "diff=${DIFF//$'\n'/$' '}" >> $GITHUB_ENV
 #          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
 #          echo "diff<<$EOF
@@ -42,7 +42,7 @@ jobs:
 #          $EOF" >> $GITHUB_ENV
 
       - name: Lint modified files with flake8
-#        if: env.diff != ""
+        if: env.diff != ""
         run: |
           flake8 --count --max-complexity=10 --max-doc-length=120 --max-line-length=120 --statistics ${{ env.diff }}
 
