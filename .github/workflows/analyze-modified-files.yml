@@ -32,21 +32,14 @@ jobs:
           DIFF=$(git diff --diff-filter=d --name-only $BASE_SHA...$HEAD_SHA -- "*.py")
           echo "modified files:"
           echo "$DIFF"
-
-          echo "${DIFF//$'\n'/$' '}"
-          echo "${DIFF//\\n/ }"
           echo "diff=${DIFF//$'\n'/$' '}" >> $GITHUB_ENV
-#          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-#          echo "diff<<$EOF
-#          $DIFF
-#          $EOF" >> $GITHUB_ENV
 
       - name: Lint modified files with flake8
         if: env.diff != ''
         run: |
           flake8 --count --max-complexity=10 --max-doc-length=120 --max-line-length=120 --statistics ${{ env.diff }}
 
-#      - name: Type check modified files with mypy
-#        if: env.diff != "" && (success() || failure())
-#        run: |
-#          mypy --follow-imports=silent --install-types --non-interactive --strict ${{ env.diff }}
+      - name: Type check modified files with mypy
+        if: env.diff != '' && (success() || failure())
+        run: |
+          mypy --follow-imports=silent --install-types --non-interactive --strict ${{ env.diff }}
