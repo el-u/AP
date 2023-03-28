@@ -30,6 +30,11 @@ class L2ACItem(Item):
         super().__init__(name, classification, code, player)
 
 
+
+
+
+
+
 l2ac_item_table: Dict[str, ItemData] = {
     # 0x0000: "No equip"
     # ----- CONSUMABLE -----
