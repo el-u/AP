@@ -1,4 +1,4 @@
-name: analyze modified files
+name: Analyze modified files
 
 on:
   pull_request:
@@ -10,7 +10,7 @@ env:
   HEAD_SHA: ${{ github.event.pull_request.head.sha }}
 
 jobs:
-  analyze-modified-files:
+  flake8-and-mypy:
     runs-on: ubuntu-latest
     continue-on-error: true
 
@@ -32,7 +32,8 @@ jobs:
           DIFF=$(git diff --diff-filter=d --name-only $BASE_SHA...$HEAD_SHA -- "*.py")
           echo modified files:
           echo $DIFF
-          echo "diff=$DIFF" >> $GITHUB_ENV
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          echo "diff<<$EOF$DIFF$EOF" >> $GITHUB_ENV
 
 #      - name: Lint modified files with flake8
 #        if: env.diff != ""
