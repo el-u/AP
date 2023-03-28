@@ -12,7 +12,7 @@ env:
 jobs:
   flake8-and-mypy:
     runs-on: ubuntu-latest
-    continue-on-error: true
+#    continue-on-error: true
 
     steps:
       - uses: actions/checkout@v3
@@ -35,11 +35,13 @@ jobs:
           echo "diff=${DIFF//$'\n'/$' '}" >> $GITHUB_ENV
 
       - name: Lint modified files with flake8
+        continue-on-error: true
         if: env.diff != ''
         run: |
           flake8 --count --max-complexity=10 --max-doc-length=120 --max-line-length=120 --statistics ${{ env.diff }}
 
       - name: Type check modified files with mypy
-        if: env.diff != '' && (success() || failure())
+        continue-on-error: true
+        if: env.diff != ''
         run: |
           mypy --follow-imports=silent --install-types --non-interactive --strict ${{ env.diff }}
