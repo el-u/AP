@@ -38,6 +38,7 @@ jobs:
 #          $DIFF
 #          $EOF" >> $GITHUB_ENV
           echo "${DIFF//$'\n'/$' '}"
+          echo "${DIFF//$'\n'/$' '}" >> $GITHUB_ENV
 
       - name: Lint modified files with flake8
 #        if: env.diff != ""
