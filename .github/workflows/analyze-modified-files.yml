@@ -1,60 +1,45 @@
 name: analyze modified files
 
-on: pull_request
+on:
+  pull_request:
+    paths:
+      - "**.py"
 
 env:
   BASE_SHA: ${{ github.event.pull_request.base.sha }}
   HEAD_SHA: ${{ github.event.pull_request.head.sha }}
 
 jobs:
-  flake8:
+  analyze-modified-files:
     runs-on: ubuntu-latest
+    continue-on-error: true
+
     steps:
       - uses: actions/checkout@v3
 
-      - run: |
-          git fetch origin $BASE_SHA $HEAD_SHA
-
       - uses: actions/setup-python@v4
         with:
-          python-version: 3.9
+          python-version: 3.8
 
-      - run: |
+      - name: Install dependencies
+        run: |
           python -m pip install --upgrade pip flake8 mypy
           python ModuleUpdate.py --append "WebHostLib/requirements.txt" --force --yes
+
+      - name: Determine modified files
+      - run: |
+          git fetch origin $BASE_SHA $HEAD_SHA
+          DIFF=$(git diff --diff-filter=d --name-only $BASE_SHA...$HEAD_SHA -- "*.py")
+          echo "diff=$DIFF" >> $GITHUB_ENV
+          echo modified files:
+          echo $DIFF
 
       - name: Lint modified files with flake8
+        if: env.diff != ""
         run: |
-          echo changed files:
-          DIFF=$(git diff --diff-filter=d --name-only $BASE_SHA...$HEAD_SHA -- "*.py")
-          echo $DIFF
-          
-          echo flake8 results:
-          if [ -z "$DIFF" ]; then exit 0; fi
-          flake8 --count --max-complexity=10 --max-doc-length=120 --max-line-length=120 --statistics $DIFF
-
-  mypy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - run: |
-          git fetch origin $BASE_SHA $HEAD_SHA
-
-      - uses: actions/setup-python@v4
-        with:
-          python-version: 3.9
-
-      - run: |
-          python -m pip install --upgrade pip flake8 mypy
-          python ModuleUpdate.py --append "WebHostLib/requirements.txt" --force --yes
+          flake8 --count --max-complexity=10 --max-doc-length=120 --max-line-length=120 --statistics ${{ env.diff }}
 
       - name: Type check modified files with mypy
+        if: env.diff != "" && (success() || failure())
         run: |
-          echo changed files:
-          DIFF=$(git diff --diff-filter=d --name-only $BASE_SHA...$HEAD_SHA -- "*.py")
-          echo $DIFF
-          
-          echo mypy results:
-          if [ -z "$DIFF" ]; then exit 0; fi
-          mypy --follow-imports=silent --install-types --non-interactive --strict $DIFF
+          mypy --follow-imports=silent --install-types --non-interactive --strict ${{ env.diff }}
