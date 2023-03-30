@@ -9,8 +9,8 @@ on:
       - "**.py"
 
 env:
-  BASE: ${{ github.event.pull_request.base.sha || main }}
-  HEAD: ${{ github.event.pull_request.head.sha || github.event.push.head }}
+  BASE: ${{ github.event.pull_request.base.sha }}
+  HEAD: ${{ github.event.pull_request.head.sha }}
 
 jobs:
   flake8-or-mypy:
