@@ -1,9 +1,9 @@
 name: Analyze modified files
 
 on:
-  pull_request:
-    paths:
-      - "**.py"
+#  pull_request:
+#    paths:
+#      - "**.py"
   push:
     paths:
       - "**.py"
