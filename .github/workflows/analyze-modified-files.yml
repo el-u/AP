@@ -9,12 +9,6 @@ name: Analyze modified files
 #      - "**.py"
 on: [push]
 
-env:
-  BASE: ${{ github.event.pull_request.base.sha || 'refs/heads/main' }}
-  HEAD: ${{ github.event.pull_request.head.sha || github.event.after }}
-  HEAD2: ${{ github.event.pull_request.head.sha || github.sha }}
-  HEAD22: ${{ toJson(github) }}
-
 jobs:
   flake8-or-mypy:
     strategy:
@@ -30,8 +24,17 @@ jobs:
 
       - name: "Determine modified files"
         run: |
-          git fetch origin $BASE $HEAD
-          DIFF=$(git diff --diff-filter=d --name-only $BASE...$HEAD -- "*.py")
+          if [[ ${ github.event_name} -eq "push" ]]; then
+            BEFORE=${{ github.event.before }}
+            AFTER=${{ github.event.after }}
+            git fetch origin $BEFORE $AFTER
+            DIFF=$(git diff --diff-filter=d --name-only $BEFORE..$AFTER -- "*.py")
+          else
+            BASE=${{ github.event.pull_request.base.sha }}
+            HEAD=${{ github.event.pull_request.head.sha }}
+            git fetch origin $BASE $HEAD
+            DIFF=$(git diff --diff-filter=d --name-only $BASE...$HEAD -- "*.py")
+          fi
           echo "modified files:"
           echo "$DIFF"
           echo "diff=${DIFF//$'\n'/$' '}" >> $GITHUB_ENV
