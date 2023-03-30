@@ -10,10 +10,8 @@ name: Analyze modified files
 on: [push]
 
 env:
-#  BASE: ${{ github.event.pull_request.base.sha }}
-#  HEAD: ${{ github.event.pull_request.head.sha }}
-  BASE: 1
-  HEAD: 2
+  BASE: ${{ github.event.pull_request.base.sha }}
+  HEAD: ${{ github.event.pull_request.head.sha }}
 
 jobs:
   flake8-or-mypy:
