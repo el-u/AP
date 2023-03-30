@@ -24,16 +24,16 @@ jobs:
 
       - name: "Determine modified files"
         run: |
-          if [[ ${ github.event_name} -eq "push" ]]; then
-            BEFORE=${{ github.event.before }}
-            AFTER=${{ github.event.after }}
-            git fetch origin $BEFORE $AFTER
-            DIFF=$(git diff --diff-filter=d --name-only $BEFORE..$AFTER -- "*.py")
-          else
+          if [[ ${{ github.event_name }} = "pull_request" ]]; then
             BASE=${{ github.event.pull_request.base.sha }}
             HEAD=${{ github.event.pull_request.head.sha }}
             git fetch origin $BASE $HEAD
             DIFF=$(git diff --diff-filter=d --name-only $BASE...$HEAD -- "*.py")
+          else
+            BEFORE=${{ github.event.before }}
+            AFTER=${{ github.event.after }}
+            git fetch origin $BEFORE $AFTER
+            DIFF=$(git diff --diff-filter=d --name-only $BEFORE..$AFTER -- "*.py")
           fi
           echo "modified files:"
           echo "$DIFF"
