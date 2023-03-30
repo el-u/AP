@@ -10,7 +10,7 @@ name: Analyze modified files
 on: [push]
 
 env:
-  BASE: ${{ github.event.pull_request.base.sha || 'refs/heads/origin/main' }}
+  BASE: ${{ github.event.pull_request.base.sha || 'refs/heads/main' }}
   HEAD: ${{ github.event.pull_request.head.sha || github.event.after }}
   HEAD2: ${{ github.event.pull_request.head.sha || github.sha }}
   HEAD22: ${{ toJson(github) }}
