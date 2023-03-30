@@ -1,12 +1,13 @@
 name: Analyze modified files
 
-on:
+#on:
 #  pull_request:
 #    paths:
 #      - "**.py"
-  push:
-    paths:
-      - "**.py"
+#  push:
+#    paths:
+#      - "**.py"
+on: [push]
 
 env:
 #  BASE: ${{ github.event.pull_request.base.sha }}
