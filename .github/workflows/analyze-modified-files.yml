@@ -17,11 +17,7 @@ env:
 #  HEAD3: ${{ github.event.push.before }}
 #  HEAD4: ${{ github.event.push.compare }}
 #  HEAD5: ${{ github.event.push.created }}
-  HEAD6: ${{ github.event.push.deleted }}
-  HEAD7: ${{ github.event.push.forced }}
-  HEAD8: ${{ github.event.push.head_commit.id }}
-  HEAD28: ${{ github.event.push.head_commit.tree_id }}
-  HEAD9: ${{ github.event.push.ref }}
+  HEAD6: ${{ toJson(github.event) }}
 
 jobs:
   flake8-or-mypy:
