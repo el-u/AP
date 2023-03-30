@@ -12,8 +12,9 @@ on: [push]
 env:
 #  BASE: ${{ github.event.pull_request.base.sha || github.event.push.before }}
 #  HEAD: ${{ github.event.pull_request.head.sha || github.event.push.after }}
-  BASE: ${{ github.sha }}
-  HEAD: ${{ github.event.push.head_commit.id  }}
+  BASE: ${{ github.event_name }}
+  HEAD: ${{ github.event }}
+  HEAD22: ${{ github.event_type }}
 
 jobs:
   flake8-or-mypy:
