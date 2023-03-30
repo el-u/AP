@@ -12,18 +12,16 @@ on: [push]
 env:
 #  BASE: ${{ github.event.pull_request.base.sha || github.event.push.before }}
 #  HEAD: ${{ github.event.pull_request.head.sha || github.event.push.after }}
-  HEAD1: ${{ github.event.push.after }}
-  HEAD2: ${{ github.event.push.base_ref }}
-  HEAD3: ${{ github.event.push.before }}
-  HEAD4: ${{ github.event.push.compare }}
-  HEAD5: ${{ github.event.push.created }}
-#  HEAD6: ${{ github.event.push.deleted }}
-#  HEAD7: ${{ github.event.push.forced }}
-#  HEAD8: ${{ github.event.push.head_commit.id }}
-#  HEAD28: ${{ github.event.push.head_commit.thee_id }}
-#  HEAD9: ${{ github.event.push.ref }}
-#  HEAD0: ${{ github.event.push. }}
-#  HEAD11: ${{ github.event.push. }}
+#  HEAD1: ${{ github.event.push.after }}
+#  HEAD2: ${{ github.event.push.base_ref }}
+#  HEAD3: ${{ github.event.push.before }}
+#  HEAD4: ${{ github.event.push.compare }}
+#  HEAD5: ${{ github.event.push.created }}
+  HEAD6: ${{ github.event.push.deleted }}
+  HEAD7: ${{ github.event.push.forced }}
+  HEAD8: ${{ github.event.push.head_commit.id }}
+  HEAD28: ${{ github.event.push.head_commit.tree_id }}
+  HEAD9: ${{ github.event.push.ref }}
 
 jobs:
   flake8-or-mypy:
