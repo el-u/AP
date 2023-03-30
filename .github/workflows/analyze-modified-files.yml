@@ -11,14 +11,13 @@ env:
 
 jobs:
   flake8-or-mypy:
-    runs-on: ubuntu-latest
-
     strategy:
       fail-fast: false
       matrix:
         task: [flake8, mypy]
 
     name: ${{ matrix.task }}
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
