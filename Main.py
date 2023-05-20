@@ -417,3 +417,6 @@ def main(args, seed=None, baked_server_options: Optional[Dict[str, object]] = No
 
     logger.info('Done. Enjoy. Total Time: %s', time.perf_counter() - start)
     return world
+
+if __name__ == "__main__":
+    undefined_variable
