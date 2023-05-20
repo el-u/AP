@@ -21,6 +21,7 @@ CONNECTION_CONNECTED_STATUS = "Connected"
 CONNECTION_INITIAL_STATUS = "Connection has not been initiated"
 
 DISPLAY_MSGS = True
+#test
 
 
 class FF1CommandProcessor(ClientCommandProcessor):
