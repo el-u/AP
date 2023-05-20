@@ -45,10 +45,9 @@ jobs:
           echo "$DIFF"
           echo "diff=${DIFF//$'\n'/$' '}" >> $GITHUB_ENV
 
-      - name: "Determine modified files (new branch)"
+      - name: "Treat all files as modified (new branch)"
         if: github.event_name == 'push' && github.event.before == '0000000000000000000000000000000000000000'
         run: |
-          echo "New branch. Treating all files as modified."
           echo "diff=." >> $GITHUB_ENV
 
       - uses: actions/setup-python@v4
